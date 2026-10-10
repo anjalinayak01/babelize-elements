@@ -10,6 +10,7 @@ import {
 import { getRegistryIndex } from "@/registry/registry";
 import { Navbar } from "@/components/landing/navbar";
 import { Community } from "@/components/landing/community";
+import { InteractiveDemo } from "@/components/landing/interactive-demo";
 import { Faq } from "@/components/landing/faq";
 import { Footer } from "@/components/landing/footer";
 
