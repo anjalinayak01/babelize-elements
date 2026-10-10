@@ -27,10 +27,10 @@ const PUBLIC_COMPONENTS = new Set([
 ]);
 
 const COMPONENT_DOCS: Record<string, string> = {
-  "language-switcher": "/docs/components/language-switcher",
+  "language-switcher": "/docs/components/language-switchers/language-switcher",
   "phone-input": "/docs/components/inputs/phone-input",
-  navbar: "/docs/components/navbar",
-  "translation-widget": "/docs/components/translation-widget",
+  navbar: "/docs/components/navigation/navbar",
+  "translation-widget": "/docs/components/translation/translation-widget",
   "locale-number": "/docs/components/formatters/locale-number",
   "relative-time": "/docs/components/formatters/relative-time",
 };
