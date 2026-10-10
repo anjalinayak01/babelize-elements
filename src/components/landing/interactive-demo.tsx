@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Copy } from "lucide-react";
 
 const COPY = {
   en: { eyebrow: "PRODUCT PREVIEW", title: "Welcome back", body: "Manage your workspace and language preferences in one place.", action: "Open workspace" },
