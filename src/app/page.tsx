@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   Blocks,
-  Copy,
   GitPullRequest,
   Package,
   Terminal,
