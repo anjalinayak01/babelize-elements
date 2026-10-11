@@ -7,34 +7,29 @@ import { cn } from "@/lib/utils";
 
 const faqs = [
   {
-    question: "How do I install Babelize Elements?",
+    question: "Which components are included today?",
     answer:
-      "Install via npm: `npm install @babelize/elements`. Works with Next.js, Remix, and any React app. Import components directly from the package.",
+      "The library currently exports LanguageSwitcher, PhoneInput, and NavBar. Browse the component docs for their props, examples, and customization options.",
   },
   {
-    question: "Can I customize the language switcher and locale picker components?",
+    question: "Can I customize the components?",
     answer:
-      "Absolutely. Since you own the code, every component is fully customizable with Tailwind CSS classes and props. Change colors, spacing, animations, and behavior however you like. No design constraints.",
+      "Yes. The components expose props for their behavior and styling, and you can adapt the source to your project’s needs.",
   },
   {
-    question: "Are these React i18n components production-ready?",
+    question: "Which i18n libraries do the components require?",
     answer:
-      "Every merged component is reviewed by maintainers and follows our accessibility, TypeScript, and localization checklist before it's documented. They're used in production apps worldwide.",
+      "The components accept locale values and callbacks rather than requiring a specific i18n library. You can connect them to the translation setup in your app.",
   },
   {
-    question: "Is Babelize Elements really free and open source?",
+    question: "Is Babelize Elements open source?",
     answer:
-      "Yes — MIT-licensed and free forever. The code lives on GitHub, contributions are welcome, and you can use the components in any project, commercial or not. No attribution required.",
+      "Yes. Babelize Elements is MIT licensed. You can inspect the source, use it in your projects, and contribute improvements through GitHub.",
   },
   {
-    question: "Which internationalization (i18n) libraries are supported?",
+    question: "How can I contribute?",
     answer:
-      "Babelize Elements works with every major i18n library: next-intl, react-i18next, react-intl, LinguiJS, FormatJS, and more. The components are library-agnostic — pass your own locale state and callbacks.",
-  },
-  {
-    question: "How do I contribute a component to Babelize Elements?",
-    answer:
-      "Browse the open issues on GitHub, build the component following the contribution guide, and open a pull request. Maintainers review and merge it, and it ships to the docs for everyone.",
+      "Start with an open issue, read the contribution guide, make a focused change, run the project checks, and open a pull request for review.",
   },
 ];
 
@@ -51,7 +46,7 @@ export function Faq() {
             <Reveal>
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1 text-xs font-medium uppercase tracking-widest text-neutral-400">
                 <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-30 motion-safe:animate-ping"></span>
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
                 </span>
                 Support
