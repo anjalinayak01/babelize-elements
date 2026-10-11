@@ -6,7 +6,7 @@ import {
   Package,
   Terminal,
 } from "lucide-react";
-import { getRegistryIndex } from "@/registry/registry";
+import { LanguageSwitcher, PhoneInput, NavBar } from "@/registry/components";
 import { Navbar } from "@/components/landing/navbar";
 import { Community } from "@/components/landing/community";
 import { InteractiveDemo } from "@/components/landing/interactive-demo";
@@ -18,132 +18,72 @@ export const metadata = {
   alternates: { canonical: "/" },
 };
 
-const PUBLIC_COMPONENTS = new Set([
-  "language-switcher",
-  "phone-input",
-  "navbar",
-  "translation-widget",
-  "locale-number",
-  "relative-time",
-]);
-
-const COMPONENT_DOCS: Record<string, string> = {
-  "language-switcher": "/docs/components/language-switchers/language-switcher",
-  "phone-input": "/docs/components/inputs/phone-input",
-  navbar: "/docs/components/navigation/navbar",
-  "translation-widget": "/docs/components/translation/translation-widget",
-  "locale-number": "/docs/components/formatters/locale-number",
-  "relative-time": "/docs/components/formatters/relative-time",
-};
+const COMPONENTS = [
+  {
+    name: "LanguageSwitcher",
+    description: "Let people choose a language with native labels, optional flags, and RTL-aware locale handling.",
+    href: "/docs/components/language-switchers/language-switcher",
+    preview: "language",
+  },
+  {
+    name: "PhoneInput",
+    description: "Collect international phone numbers with country flags and calling codes.",
+    href: "/docs/components/inputs/phone-input",
+    preview: "phone",
+  },
+  {
+    name: "NavBar",
+    description: "Build a responsive navigation bar with optional locale controls and a mobile menu.",
+    href: "/docs/components/navigation/navbar",
+    preview: "navbar",
+  },
+] as const;
 
 function ComponentShowcase() {
-  const items = getRegistryIndex().items.filter((item) => PUBLIC_COMPONENTS.has(item.name));
-
   return (
-    <section
-      id="components"
-      className="border-y border-white/[0.06] bg-[#080a09] py-20 sm:py-28"
-    >
+    <section id="components" className="border-y border-white/[0.06] bg-[#080a09] py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 flex flex-col gap-5 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400">
-              The component shelf
-            </p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400">The component shelf</p>
             <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-              Real pieces. <span className="text-emerald-400">Ready to make yours.</span>
+              Small building blocks. <span className="text-emerald-400">Real localization work.</span>
             </h2>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-400">
-              Browse the components currently shipped by Babelize Elements. Each card leads to
-              its implementation docs.
+              Explore the three components currently exported by the library. Each preview is interactive and links to its implementation docs.
             </p>
           </div>
-          <Link
-            href="/docs/components"
-            className="inline-flex min-h-10 items-center gap-2 self-start rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-emerald-400/40 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 sm:self-auto"
-          >
+          <Link href="/docs/components" className="inline-flex min-h-10 items-center gap-2 self-start rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-emerald-400/40 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 sm:self-auto">
             All component docs <ArrowUpRight className="size-4" aria-hidden="true" />
           </Link>
         </div>
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <Link
-              key={item.name}
-              href={COMPONENT_DOCS[item.name] ?? "/docs/components"}
-              className="group flex min-w-0 flex-col rounded-2xl border border-white/[0.08] bg-[#0d100f] p-4 transition-colors hover:border-emerald-400/30 hover:bg-[#101512] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 sm:p-5"
-            >
-              <ComponentPreview name={item.name} />
-              <div className="flex items-start justify-between gap-3 pt-4">
-                <div className="min-w-0">
-                  <h3 className="font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-neutral-400">
-                    {item.description}
-                  </p>
-                </div>
-                <ArrowUpRight
-                  className="mt-0.5 size-4 shrink-0 text-neutral-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-emerald-300"
-                  aria-hidden="true"
-                />
+        <div className="grid gap-4 lg:grid-cols-3">
+          {COMPONENTS.map((item) => (
+            <article key={item.name} className="flex min-w-0 flex-col rounded-2xl border border-white/[0.08] bg-[#0d100f] p-4 sm:p-5">
+              <div className="flex min-h-36 items-center justify-center overflow-hidden rounded-xl border border-white/[0.06] bg-[#080a09] p-4">
+                {item.preview === "language" && (
+                  <div className="w-full max-w-xs space-y-3">
+                    <label htmlFor="showcase-locale" className="block text-xs text-neutral-400">Choose language</label>
+                    <LanguageSwitcher locales={[{code:"en"},{code:"fr"},{code:"ar"},{code:"he"}]} defaultValue="en" showFlags onValueChange={(code) => { const output = document.getElementById("showcase-locale-output"); if (output) output.textContent = ({en:"Hello! Welcome back.",fr:"Bonjour ! Bon retour.",ar:"مرحبًا بعودتك!",he:"ברוך שובך!"} as Record<string,string>)[code] ?? code; }} />
+                    <p id="showcase-locale-output" aria-live="polite" className="text-sm text-white">Hello! Welcome back.</p>
+                  </div>
+                )}
+                {item.preview === "phone" && <PhoneInput defaultCountry="IN" label="Phone number" placeholder="98765 43210" />}
+                {item.preview === "navbar" && <div className="w-full"><NavBar logo={<span className="font-semibold text-emerald-300">Acme</span>} links={[{label:"Product",href:"#product"},{label:"Docs",href:"#docs"}]} locales={[{code:"en"},{code:"fr"},{code:"ar"}]} currentLocale="en" onLocaleChange={() => {}} showFlags={false} sticky={false} showGitHub={false} cta={{label:"Get started",href:"/docs/getting-started"}} /></div>}
               </div>
-              <span className="mt-4 text-xs text-emerald-300">View documentation</span>
-            </Link>
+              <div className="flex flex-1 items-start justify-between gap-3 pt-4">
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-white">{item.name}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-neutral-400">{item.description}</p>
+                </div>
+                <ArrowUpRight className="mt-0.5 size-4 shrink-0 text-neutral-500" aria-hidden="true" />
+              </div>
+              <Link href={item.href} className="mt-4 self-start text-xs text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">View documentation</Link>
+            </article>
           ))}
         </div>
       </div>
     </section>
-  );
-}
-
-function ComponentPreview({ name }: { name: string }) {
-  return (
-    <div className="flex min-h-28 items-center justify-center overflow-hidden rounded-xl border border-white/[0.06] bg-[#080a09] p-4">
-      {name === "language-switcher" && (
-        <div className="inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 bg-[#111513] px-3 py-2 text-sm text-white">
-          <span className="text-emerald-300" aria-hidden="true">◎</span>
-          <span>English</span>
-          <span className="text-neutral-500" aria-hidden="true">⌄</span>
-        </div>
-      )}
-      {name === "phone-input" && (
-        <div className="flex w-full max-w-xs items-center gap-3 rounded-lg border border-white/10 bg-[#111513] px-3 py-2.5 text-sm">
-          <span>🇮🇳 <span className="text-neutral-300">+91</span></span>
-          <span className="h-5 w-px bg-white/10" />
-          <span className="text-neutral-500">Phone number</span>
-        </div>
-      )}
-      {name === "navbar" && (
-        <div className="flex w-full max-w-sm items-center justify-between gap-2 rounded-full border border-white/10 bg-[#111513] px-3 py-2 text-[11px] text-neutral-300">
-          <span className="font-semibold text-emerald-300">Babelize</span>
-          <span>Components</span><span>Docs</span>
-          <span className="rounded-full bg-emerald-400 px-2 py-1 font-semibold text-black">Start</span>
-        </div>
-      )}
-      {name === "translation-widget" && (
-        <div className="grid w-full max-w-sm grid-cols-2 gap-2">
-          <div className="rounded-lg border border-white/10 bg-[#111513] p-3">
-            <span className="text-xs text-neutral-400">English</span>
-            <p className="mt-2 text-sm text-white">Hello!</p>
-          </div>
-          <div dir="rtl" className="rounded-lg border border-emerald-400/20 bg-[#111513] p-3">
-            <span className="text-xs text-neutral-400">العربية</span>
-            <p className="mt-2 text-sm text-white">مرحباً!</p>
-          </div>
-        </div>
-      )}
-      {name === "locale-number" && (
-        <div className="text-center">
-          <p className="font-mono text-2xl font-semibold text-white">1.234.567,89</p>
-          <p className="mt-1 text-xs text-neutral-500">de-DE · decimal</p>
-        </div>
-      )}
-      {name === "relative-time" && (
-        <div className="text-center">
-          <p className="font-semibold text-white">3 hours ago</p>
-          <p className="mt-1 text-xs text-neutral-500">Relative to now · en</p>
-        </div>
-      )}
-    </div>
   );
 }
 
